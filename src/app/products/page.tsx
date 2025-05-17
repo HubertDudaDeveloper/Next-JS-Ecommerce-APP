@@ -1,21 +1,14 @@
-import { EDummyJSON, IProduct, IProductQuery } from "@/types/ProductTypes";
+import { IProduct } from "@/types/product";
 import Image from "next/image";
+import productsService from "@/services/productsService";
 
-export const ProductsList = async () => {
-  let products: IProduct[] = [];
+export const ProductsListPage = async () => {
+  const { loadProducts } = productsService();
 
-  try {
-    const loadProducts: Promise<IProductQuery> = (await (
-      await fetch(`${EDummyJSON.URL}${EDummyJSON.PRODUCTS}`)
-    ).json()) as unknown as Promise<IProductQuery>;
-    products = (await loadProducts).products as IProduct[];
-  } catch (e) {
-    console.log(e);
-  } finally {
-  }
+  const products = await loadProducts();
 
   return (
-    <div
+    <main
       className="
         flex flex-col gap-[24]
         justify-center-safe items-center
@@ -49,8 +42,8 @@ export const ProductsList = async () => {
           );
         })}
       </div>
-    </div>
+    </main>
   );
 };
 
-export default ProductsList;
+export default ProductsListPage;
