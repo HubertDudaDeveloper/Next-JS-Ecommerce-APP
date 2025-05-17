@@ -1,6 +1,7 @@
-import { IProduct } from "@/types/product";
+import { IProductListItem } from "@/types/product";
 import Image from "next/image";
 import productsService from "@/services/productsService";
+import Link from "next/link";
 
 export const ProductsListPage = async () => {
   const { loadProducts } = productsService();
@@ -23,9 +24,9 @@ export const ProductsListPage = async () => {
           w-[100%] max-w-[1366]
         "
       >
-        {products.map((product: IProduct) => {
+        {products.map((product: IProductListItem) => {
           return (
-            <div
+            <Link
               className="
                 flex flex-col gap-[16]
                 justify-center-safe items-center
@@ -33,12 +34,13 @@ export const ProductsListPage = async () => {
                 border border-indigo-600 rounded-md
               "
               key={product.id}
+              href={`products/${product.id}`}
             >
               <Image src={product.images[0]} width={250} height={250} alt="" />
               <h3 className="font-bold">{product.title}</h3>
               <p className="line-clamp-2">{product.description}</p>
               <span className="font-bold">{product.price}</span>
-            </div>
+            </Link>
           );
         })}
       </div>
